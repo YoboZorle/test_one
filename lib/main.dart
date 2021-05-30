@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:badges/badges.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:testing_one/image_pick_page.dart';
 
@@ -16,7 +18,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,6 +50,50 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            CountryListPick(
+                appBar: AppBar(
+                  backgroundColor: Colors.blue,
+                  title: Text('Choisir un pays'),
+                ),
+
+                // if you need custome picker use this
+                // pickerBuilder: (context, CountryCode countryCode){
+                //   return Row(
+                //     children: [
+                //       Image.asset(
+                //         countryCode.flagUri,
+                //         package: 'country_list_pick',
+                //       ),
+                //       Text(countryCode.code),
+                //       Text(countryCode.dialCode),
+                //     ],
+                //   );
+                // },
+                theme: CountryTheme(
+                  isShowFlag: true,
+                  isShowTitle: true,
+                  isShowCode: true,
+                  isDownIcon: true,
+                  showEnglishName: true,
+                ),
+                // Set default value
+                initialSelection: '+62',
+                // onChanged: (CountryCode code) {
+                //   print(code.name);
+                //   print(code.code);
+                //   print(code.dialCode);
+                //   print(code.flagUri);
+                // },
+                // Whether to allow the widget to set a custom UI overlay
+                useUiOverlay: true,
+                // Whether the country list should be wrapped in a SafeArea
+                useSafeArea: false
+            ),
+            Text(continueMessage(),
+                style: TextStyle(
+                    color: Colors.brown,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold)),
             SizedBox(
               height: 150,
               child: new FlareActor("assets/flare/success_anim.flr",
@@ -115,4 +160,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  // Intl trial
+  String continueMessage() => Intl.message('Intl hit any key to continue',
+      name: 'continueMessage',
+      args: [],
+      desc: 'Explains that we will not proceed further until '
+          'the user presses a key');
 }
