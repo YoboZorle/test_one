@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:badges/badges.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:readmore/readmore.dart';
 import 'package:testing_one/image_pick_page.dart';
 
 void main() {
@@ -47,8 +49,30 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            SizedBox(
+              height: 150,
+              child: new FlareActor("assets/flare/success_anim.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: "start"),
+            ),
+            ReadMoreText(
+              'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+              trimLines: 2,
+              colorClickableText: Colors.pink,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              trimMode: TrimMode.Line,
+              trimCollapsedText: 'Show more',
+              trimExpandedText: 'Show less',
+              moreStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrange),
             ),
             TextButton(
                 onPressed: () {
