@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,6 +35,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +64,19 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
+            Container(
+                color: Colors.blueGrey.shade50,
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    TextButton(
+                        onPressed: getImage, child: Text('Upload ImagePicker')),
+                    _image != null
+                        ? SizedBox(height: 130, child: Image.file(_image))
+                        : Text('No image selected.')
+                  ],
+                )),
             FlutterBadge(
               textStyle: TextStyle(fontSize: 20),
               icon: Icon(Icons.message),
