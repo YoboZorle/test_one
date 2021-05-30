@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             FlutterBadge(
+              textStyle: TextStyle(fontSize: 20),
               icon: Icon(Icons.message),
               borderRadius: 20.0,
               itemCount: 3,
