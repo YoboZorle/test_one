@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 
@@ -53,6 +54,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              child: Center(
+                child: TextButton(
+                  child: Text('Flash Bar',
+                      style: TextStyle(color: Colors.deepPurpleAccent)),
+                  onPressed: () {
+                    Flushbar(
+                      title: "Hey Ninja",
+                      message:
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                      duration: Duration(seconds: 3),
+                    )..show(context);
+                  },
+                ),
+              ),
+            ),
             TextField(inputFormatters: [maskFormatter]),
             CountryListPick(
                 appBar: AppBar(
