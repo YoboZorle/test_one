@@ -21,6 +21,7 @@ import 'package:testing_one/image_pick_page.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var maskFormatter = new MaskTextInputFormatter(
       mask: '+# (###) ###-##-##', filter: {"#": RegExp(r'[0-9]')});
 
+  static const _url = 'https://flutter.dev';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -78,6 +81,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextButton(
+              onPressed: _launchURL,
+              child: Text('Show Flutter homepage url_launcher',
+                  style: TextStyle(
+                      color: Colors.green, fontWeight: FontWeight.bold)),
+            ),
             TextButton(
               child: Text("open picker dialog"),
               onPressed: () async {
@@ -223,4 +232,8 @@ class _MyHomePageState extends State<MyHomePage> {
       args: [],
       desc: 'Explains that we will not proceed further until '
           'the user presses a key');
+
+  void _launchURL() async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }
