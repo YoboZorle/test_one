@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:readmore/readmore.dart';
 import 'package:testing_one/image_pick_page.dart';
 
@@ -39,6 +39,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+# (###) ###-##-##', filter: {"#": RegExp(r'[0-9]')});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,45 +53,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextField(inputFormatters: [maskFormatter]),
             CountryListPick(
                 appBar: AppBar(
                   backgroundColor: Colors.blue,
                   title: Text('Choisir un pays'),
                 ),
-
-                // if you need custome picker use this
-                // pickerBuilder: (context, CountryCode countryCode){
-                //   return Row(
-                //     children: [
-                //       Image.asset(
-                //         countryCode.flagUri,
-                //         package: 'country_list_pick',
-                //       ),
-                //       Text(countryCode.code),
-                //       Text(countryCode.dialCode),
-                //     ],
-                //   );
-                // },
                 theme: CountryTheme(
-                  isShowFlag: true,
-                  isShowTitle: true,
+                  isShowFlag: false,
+                  isShowTitle: false,
                   isShowCode: true,
-                  isDownIcon: true,
+                  isDownIcon: false,
                   showEnglishName: true,
                 ),
-                // Set default value
-                initialSelection: '+62',
-                // onChanged: (CountryCode code) {
-                //   print(code.name);
-                //   print(code.code);
-                //   print(code.dialCode);
-                //   print(code.flagUri);
-                // },
-                // Whether to allow the widget to set a custom UI overlay
+                initialSelection: '+234',
                 useUiOverlay: true,
-                // Whether the country list should be wrapped in a SafeArea
-                useSafeArea: false
-            ),
+                useSafeArea: false),
             Text(continueMessage(),
                 style: TextStyle(
                     color: Colors.brown,
