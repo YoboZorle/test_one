@@ -54,6 +54,14 @@ dependencies:
   flare_splash_screen: ^4.0.0
 
   flutter_holo_date_picker: ^0.3.4+1
+  like_button: ^2.0.2
+  extended_tabs: ^2.2.0
+  fluttertoast: ^8.0.7
+  carousel_slider: ^3.0.0
+
+
+  photo_view: ^0.11.1
+  full_screen_image: ^1.0.2
 
 
 dev_dependencies:
