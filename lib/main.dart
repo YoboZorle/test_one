@@ -1,18 +1,26 @@
 import 'dart:io';
 
 import 'package:badges/badges.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_list_pick/country_list_pick.dart';
+import 'package:dio/dio.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
+import 'package:flutter_holo_date_picker/date_picker.dart';
+import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:readmore/readmore.dart';
 import 'package:testing_one/image_pick_page.dart';
+
+import 'dart:async';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -44,16 +52,67 @@ class _MyHomePageState extends State<MyHomePage> {
       mask: '+# (###) ###-##-##', filter: {"#": RegExp(r'[0-9]')});
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getHttp() async {
+    try {
+      var response = await Dio().get('http://www.google.com');
+      print(response);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextButton(
+              child: Text("open picker dialog"),
+              onPressed: () async {
+                var datePicked = await DatePicker.showSimpleDatePicker(
+                  context,
+                  // initialDate: DateTime(1994),
+                  firstDate: DateTime(1960),
+                  // lastDate: DateTime(2012),
+                  dateFormat: "dd-MMMM-yyyy",
+                  locale: DateTimePickerLocale.en_us,
+                  looping: true,
+                );
+                final snackBar =
+                    SnackBar(content: Text("Date Picked $datePicked"));
+                Scaffold.of(context).showSnackBar(snackBar);
+              },
+            ),
+            TextButton(
+                onPressed: getHttp,
+                child:
+                    Text('Dio test', style: TextStyle(color: Colors.purple))),
+            TextButton(
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                int counter = (prefs.getInt('counter') ?? 0) + 1;
+                print('Pressed $counter times.');
+                await prefs.setInt('counter', counter);
+              },
+              child: Text('Increment Counter'),
+            ),
+            CachedNetworkImage(
+              imageUrl: "http://via.placeholder.com/350x150",
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
             Container(
               child: Center(
                 child: TextButton(
@@ -125,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: Text('ImagePick Page')),
             FlutterBadge(
-              textStyle: TextStyle(fontSize: 20),
+              textStyle: TextStyle(fontSize: 17),
               icon: Icon(Icons.message),
               borderRadius: 20.0,
               itemCount: 3,

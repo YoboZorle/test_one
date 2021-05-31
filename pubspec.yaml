@@ -43,6 +43,17 @@ dependencies:
   provider: ^5.0.0
   meta: ^1.2.3
   flushbar: ^1.10.4
+  cached_network_image: ^3.0.0
+  shared_preferences: ^2.0.6
+  sqflite: ^2.0.0+3
+  path_provider: ^2.0.2
+  web_socket_channel: ^2.1.0
+  dio: ^4.0.0
+  firebase_messaging: ^10.0.0
+  firebase_analytics: ^8.1.0
+  flare_splash_screen: ^4.0.0
+
+  flutter_holo_date_picker: ^0.3.4+1
 
 
 dev_dependencies:
