@@ -66,6 +66,26 @@ dependencies:
   full_screen_image: ^1.0.2
 
 
+#  NEW DEPENDENCIES
+
+  modal_bottom_sheet: ^2.0.0
+  theme_provider: ^0.5.0
+  flutter_paystack: ^1.0.5+1
+  flutter_greetings: ^1.0.1
+  flutter_numpad_widget: ^0.1.1
+
+  qr_flutter: ^4.0.0
+  barcode_scan_fix: ^1.0.2
+  flutter_webview_plugin: ^0.4.0
+
+  pin_input_text_field: ^4.1.0
+  currency_text_input_formatter: ^2.0.1
+#  currency_formatter: ^1.1.0
+  pretty_qr_code: ^2.0.2
+
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
