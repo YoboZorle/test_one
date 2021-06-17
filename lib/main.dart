@@ -8,12 +8,14 @@ import 'package:dio/dio.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:majascan/majascan.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:readmore/readmore.dart';
 import 'package:testing_one/image_pick_page.dart';
@@ -53,6 +55,38 @@ class _MyHomePageState extends State<MyHomePage> {
       mask: '+# (###) ###-##-##', filter: {"#": RegExp(r'[0-9]')});
 
   static const _url = 'https://flutter.dev';
+
+  String result = "Hey there !";
+  Future _scanQR() async {
+    try {
+      String qrResult = await MajaScan.startScan(
+          title: "QRcode scanner",
+          titleColor: Colors.amberAccent[700],
+          qRCornerColor: Colors.orange,
+          qRScannerColor: Colors.orange);
+      setState(() {
+        result = qrResult;
+      });
+    } on PlatformException catch (ex) {
+      if (ex.code == MajaScan.CameraAccessDenied) {
+        setState(() {
+          result = "Camera permission was denied";
+        });
+      } else {
+        setState(() {
+          result = "Unknown Error $ex";
+        });
+      }
+    } on FormatException {
+      setState(() {
+        result = "You pressed the back button before scanning anything";
+      });
+    } catch (ex) {
+      setState(() {
+        result = "Unknown Error $ex";
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -215,6 +249,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(30.0),
                   child: const CircularProgressIndicator(strokeWidth: 1)),
             ),
+
+            Text(
+              result,
+              style: new TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
+
+            TextButton(
+                onPressed: _scanQR,
+                child: Text('Scan QR MajaScan')),
+
+            SizedBox(height: 50)
           ],
         ),
       ),
